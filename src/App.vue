@@ -1,9 +1,23 @@
 <script setup lang="ts">
 import { defineState } from 'vue-define-state'
 import tugBudgetImg from './assets/tug-budget.webp'
+import tugImg from './assets/tug.webp'
+import twotailImg from './assets/twotail.webp'
+import merrekImg from './assets/merrek.webp'
+import elyarImg from './assets/elyar.webp'
+import crimsonImg from './assets/crimson.webp'
+import citadelAltaereinImg from './assets/citadel-altaerein.webp'
 
 const state = defineState({
-  totalPartyGold: 5000
+  totalPartyGold: 5000,
+  partyMembers: [
+    { name: 'Tug', share: 1, image: tugImg },
+    { name: 'Twotail', share: 1, image: twotailImg },
+    { name: 'Merrek', share: 1, image: merrekImg },
+    { name: 'Elyar', share: 1, image: elyarImg },
+    { name: 'Crimson', share: 1, image: crimsonImg },
+    { name: 'Citadel Altaerein', share: 1, image: citadelAltaereinImg }
+  ],
 })
 </script>
 
@@ -27,6 +41,14 @@ const state = defineState({
         </VSlider>
         <VLabel for="totalPartyGold">Total Party Gold</VLabel>
       </VContainer>
+      <VCol>
+        <VRow>
+          <VCard v-for="member in state.partyMembers" :key="member.name" class="mb-4">
+            <VAvatar :image="member.image" size="100px" class="mx-auto" />
+            <VCardTitle>{{ member.name }}</VCardTitle>
+          </VCard>
+        </VRow>
+      </VCol>
     </VMain>
   </VApp>
 </template>
