@@ -1,33 +1,42 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import { defineState } from 'vue-define-state'
+import tugBudgetImg from './assets/tug-budget.webp'
+
+const state = defineState({
+  totalPartyGold: 5000
+})
 </script>
 
 <template>
-  <div>
-    <VBtn>It's a button</VBtn>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <VApp>
+    <VMain>
+      <VContainer>
+        <VImg :src="tugBudgetImg" alt="Tug Budget" :maxWidth="300" style="margin: auto;" />
+        <h1 class="text-h2 mt-4 mb-4">Tug does budgeting</h1>
+        <VSlider
+          v-model="state.totalPartyGold"
+          id="totalPartyGold"
+          :min="0"
+          :max="10000"
+          :step="1"
+          color="#FFD700"
+          thumbLabel="always">
+          <template v-slot:thumb-label="{ modelValue }">
+            {{ modelValue }}gp
+          </template>
+        </VSlider>
+        <VLabel for="totalPartyGold">Total Party Gold</VLabel>
+      </VContainer>
+    </VMain>
+  </VApp>
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+<style>
+h1 {
+  font-size: 64px;
 }
 
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+#app {
+  text-align: center;
 }
 </style>
