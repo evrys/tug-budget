@@ -8,11 +8,11 @@ import elyarImg from './assets/elyar.webp'
 import crimsonImg from './assets/crimson.webp'
 // import citadelAltaereinImg from './assets/citadel-altaerein.webp'
 import { PurchasableItem, wishlist } from "./wishlist"
-import { minBy, orderBy } from 'lodash-es'
+import { orderBy } from 'lodash-es'
 
 const state = defineState({
   totalPartyGold: 3000,
-  maxItemLevel: 8,
+  maxItemLevel: 20,
 
   partyMembers: [
     { name: 'Tug', image: tugImg, class: 'Champion', archetype: 'Sorcerer' },
@@ -50,31 +50,6 @@ const state = defineState({
         }
       }
     }
-
-    // while (true) {
-    //   // Figure out who can still wants to buy something within budget
-    //   const membersWhoCanBuy = membersWithPurchases.filter(m => m.remainingPotentialPurchases.length && m.remainingPotentialPurchases[m.remainingPotentialPurchases.length - 1].cost <= budget)
-
-    //   // We'll buy something for whoever has spent the least
-    //   const member = minBy(membersWhoCanBuy, member => member.spent)
-
-    //   // If there's no one to buy for, we're done
-    //   if (!member) break
-
-    //   let nextPurchase = member.remainingPotentialPurchases.find(purchase => purchase.priority)
-    //   if (!nextPurchase) {
-    //     nextPurchase = member.remainingPotentialPurchases[0]
-    //   }
-
-    //   member.remainingPotentialPurchases = member.remainingPotentialPurchases.filter(purchase => purchase !== nextPurchase)
-    //   member.purchases.push(nextPurchase)
-    //   member.spent += nextPurchase.cost
-    //   budget -= nextPurchase.cost
-    // }
-
-    // for (const member of membersWithPurchases) {
-    //   member.purchases = orderBy(member.purchases, ['priority', 'level', 'cost'], ['asc', 'desc', 'desc'])
-    // }
 
     return membersWithPurchases
   },
