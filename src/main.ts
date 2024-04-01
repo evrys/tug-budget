@@ -6,6 +6,13 @@ import { createVuetify } from 'vuetify'
 
 createApp(App).use(createVuetify({
   theme: {
+    themes: {
+      dark: {
+        colors: {
+          gold: '#FFD700',
+        }
+      }
+    },
     defaultTheme: 'dark'
   }
 })).mount('#app')
