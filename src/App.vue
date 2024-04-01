@@ -15,11 +15,11 @@ const state = defineState({
   maxItemLevel: 8,
 
   partyMembers: [
-    { name: 'Tug', share: 1, image: tugImg, class: 'Champion', archetype: 'Sorcerer' },
-    { name: 'Twotail', share: 1, image: twotailImg, class: 'Rogue', archetype: 'Bard' },
-    { name: 'Merrek', share: 1, image: merrekImg, class: 'Barbarian', archetype: 'Wrestler' },
-    { name: 'Elyar', share: 1, image: elyarImg, class: 'Wizard', archetype: 'Gelid Shard' },
-    { name: 'Crimson', share: 1, image: crimsonImg, class: 'Oracle', archetype: 'Beastmaster' },
+    { name: 'Tug', image: tugImg, class: 'Champion', archetype: 'Sorcerer' },
+    { name: 'Twotail', image: twotailImg, class: 'Rogue', archetype: 'Bard' },
+    { name: 'Merrek', image: merrekImg, class: 'Barbarian', archetype: 'Wrestler' },
+    { name: 'Elyar', image: elyarImg, class: 'Wizard', archetype: 'Gelid Shard' },
+    { name: 'Crimson', image: crimsonImg, class: 'Oracle', archetype: 'Beastmaster' },
     // { name: 'Citadel Altaerein', share: 1, image: citadelAltaereinImg }
   ],
 
@@ -28,41 +28,53 @@ const state = defineState({
   },
 
   get membersWithPurchases() {
-    let budget = this.totalPartyGold
-
     const membersWithPurchases = this.partyMembers.map(member => {
       return {
         ...member,
         purchases: [] as PurchasableItem[],
-        remainingPotentialPurchases: orderBy(this.availableRecs.filter(item => item.for === member.name), item => item.cost),
+        budget: this.totalPartyGold / this.partyMembers.length,
+        desiredPurchases: orderBy(
+          this.availableRecs.filter(item => item.for === member.name),
+          ['priority', 'cost'], ['asc', 'desc']
+        ),
         spent: 0
       }
     })
 
-    while (true) {
-      // Figure out who can still wants to buy something within budget
-      const membersWhoCanBuy = membersWithPurchases.filter(m => m.remainingPotentialPurchases.length && m.remainingPotentialPurchases[m.remainingPotentialPurchases.length - 1].cost <= budget)
-
-      // We'll buy something for whoever has spent the least
-      const member = minBy(membersWhoCanBuy, member => member.spent)
-
-      // If there's no one to buy for, we're done
-      if (!member) break
-
-      let nextPurchase = member.remainingPotentialPurchases.find(purchase => purchase.priority)
-      if (!nextPurchase) {
-        nextPurchase = member.remainingPotentialPurchases[0]
-      }
-
-      member.remainingPotentialPurchases = member.remainingPotentialPurchases.filter(purchase => purchase !== nextPurchase)
-      member.purchases.push(nextPurchase)
-      member.spent += nextPurchase.cost
-      budget -= nextPurchase.cost
-    }
-
     for (const member of membersWithPurchases) {
-      member.purchases = orderBy(member.purchases, ['priority', 'level', 'cost'], ['asc', 'desc', 'desc'])
+      for (const purchase of member.desiredPurchases) {
+        if (purchase.cost <= member.budget) {
+          member.purchases.push(purchase)
+          member.spent += purchase.cost
+          member.budget -= purchase.cost
+        }
+      }
     }
+
+    // while (true) {
+    //   // Figure out who can still wants to buy something within budget
+    //   const membersWhoCanBuy = membersWithPurchases.filter(m => m.remainingPotentialPurchases.length && m.remainingPotentialPurchases[m.remainingPotentialPurchases.length - 1].cost <= budget)
+
+    //   // We'll buy something for whoever has spent the least
+    //   const member = minBy(membersWhoCanBuy, member => member.spent)
+
+    //   // If there's no one to buy for, we're done
+    //   if (!member) break
+
+    //   let nextPurchase = member.remainingPotentialPurchases.find(purchase => purchase.priority)
+    //   if (!nextPurchase) {
+    //     nextPurchase = member.remainingPotentialPurchases[0]
+    //   }
+
+    //   member.remainingPotentialPurchases = member.remainingPotentialPurchases.filter(purchase => purchase !== nextPurchase)
+    //   member.purchases.push(nextPurchase)
+    //   member.spent += nextPurchase.cost
+    //   budget -= nextPurchase.cost
+    // }
+
+    // for (const member of membersWithPurchases) {
+    //   member.purchases = orderBy(member.purchases, ['priority', 'level', 'cost'], ['asc', 'desc', 'desc'])
+    // }
 
     return membersWithPurchases
   },
@@ -121,14 +133,15 @@ const state = defineState({
               <VCardSubtitle>Archetype: {{ member.archetype }}</VCardSubtitle>
               <div class="text-gold">Spending {{ member.spent }}gp</div>
               <div>Buying {{ member.purchases.length }}/{{
-          member.purchases.length + member.remainingPotentialPurchases.length }}
+          member.desiredPurchases.length }}
                 items</div>
-              <div v-if="member.remainingPotentialPurchases.length === 0">Needs more suggestions</div>
+              <div v-if="member.purchases.length === member.desiredPurchases.length">Needs more suggestions</div>
               <VList>
                 <VListItem v-for="rec in member.purchases" :key="rec.name">
                   <VListItemTitle>
                     <!-- <span v-if="rec.priority" class="text-gold">Priority: </span> -->
-                    <a :href="rec.link" target="_blank">{{ rec.name }}</a>
+                    <a v-if="rec.link" :href="rec.link" target="_blank">{{ rec.name }}</a>
+                    <b v-else>{{ rec.name }}</b>
                   </VListItemTitle>
                   <p>{{ rec.desc }}</p>
                   <VListItemSubtitle>Level {{ rec.level }} - {{ rec.cost }}gp</VListItemSubtitle>

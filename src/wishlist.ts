@@ -3,7 +3,7 @@ export type PurchasableItem = {
   cost: number,
   level: number,
   name: string,
-  link: string,
+  link?: string,
   desc: string,
   priority?: true
 }
@@ -58,6 +58,7 @@ export const wishlist: PurchasableItem[] = [
   // { for: 'Crimson', cost: 100, level: 4, name: "Sleeves of Storage", link: "https://2e.aonprd.com/Equipment.aspx?ID=745", desc: "Worn garment which magically holds up to 10 Bulk with reduced weight" },
   { for: 'Crimson', cost: 340, level: 8, name: "Resilient (Armor Fundamental Rune)", link: "https://2e.aonprd.com/Equipment.aspx?ID=2786", desc: "+1 to all saving throws" },
   { for: 'Crimson', cost: 470, level: 8, name: "Staff of Healing (Greater)", link: "https://2e.aonprd.com/Equipment.aspx?ID=3042", desc: "+2 item bonus to all healing, extra heal spells, other spells" },
+  { for: 'Crimson', cost: 500, level: 8, name: "Pendant of Lingering Magic", desc: "Allows sustain spell to be active for 3 rounds after sustain stops", priority: true },
   { for: 'Crimson', cost: 1000, level: 10, name: "Shadow Signet", link: "https://2e.aonprd.com/Equipment.aspx?ID=3108&NoRedirect=1", desc: "Free action metamagic which changes spell to target Fortitude or Reflex instead of AC" },
   { for: 'Crimson', cost: 700, level: 9, name: "Healer's Gloves (Greater)", link: "https://2e.aonprd.com/Equipment.aspx?ID=444", desc: "Action to restore 4d6+15 HP to an adjacent creature once per day, +2 item bonus to Medicine checks" },
 
