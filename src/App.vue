@@ -73,7 +73,7 @@ const state = defineState({
   <VApp>
     <VMain>
       <VContainer>
-        <VImg :src="tugBudgetImg" alt="Tug Budget" :maxWidth="300" style="margin: auto;" />
+        <VImg :src="tugBudgetImg" alt="Tug Budget" :width="300" :height="300" style="margin: auto;" />
         <h1 class="text-h2 mt-4 mb-6">Tug does budgeting</h1>
         <VSlider
           v-model="state.totalPartyGold"
@@ -107,7 +107,7 @@ const state = defineState({
         <VRow>
           <VCol v-for="member in state.membersWithPurchases" :key="member.name" :style="{ minWidth: '250px' }">
             <VCard>
-              <VAvatar :image="member.image" size="100px" class="mx-auto mt-4" />
+              <VAvatar :image="member.image" :size="100" class="mx-auto mt-4" />
               <VCardTitle>{{ member.name }}</VCardTitle>
               <VCardSubtitle>Class: {{ member.class }}</VCardSubtitle>
               <VCardSubtitle>Archetype: {{ member.archetype }}</VCardSubtitle>
