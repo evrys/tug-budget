@@ -150,4 +150,9 @@ main {
 .v-slider-thumb__label {
   color: white !important;
 }
+
+a,
+a:visited {
+  color: #89e2ff;
+}
 </style>
