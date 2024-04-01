@@ -9,12 +9,11 @@ export type PurchasableItem = {
 }
 
 export const wishlist: PurchasableItem[] = [
+  { for: 'Tug', cost: 65, level: 4, name: "Striking (Weapon Fundamental Rune)", link: "https://2e.aonprd.com/Equipment.aspx?ID=280", desc: "Increases weapon damage dice (e.g. 1d10 => 2d10)", priority: true },
   { for: 'Tug', cost: 50, level: 3, name: "Crushing (Weapon Property Rune)", link: "https://2e.aonprd.com/Equipment.aspx?ID=1298", desc: "When you critically hit a target with this weapon, your target becomes clumsy 1 and enfeebled 1 until the end of your next turn" },
   { for: 'Tug', cost: 58, level: 3, name: "Bracelet of Dashing", link: "https://2e.aonprd.com/Equipment.aspx?ID=415", desc: "Once per day, gain a +10-foot status bonus to your Speed for 1 minute" },
-  { for: 'Tug', cost: 65, level: 4, name: "Striking (Weapon Fundamental Rune)", link: "https://2e.aonprd.com/Equipment.aspx?ID=280", desc: "Increases weapon damage dice (e.g. 1d10 => 2d10)", priority: true },
   { for: 'Tug', cost: 80, level: 4, name: "Lifting Belt", link: "https://2e.aonprd.com/Equipment.aspx?ID=3091&Redirected=1", desc: "+1 item bonus to Athletics, extra carrying capacity, magic lift action" },
-
-  { for: 'Tug', cost: 85, level: 4, name: "Belt of Good Health", link: "https://2e.aonprd.com/Equipment.aspx?ID=913", desc: "+4 extra HP" },
+  // { for: 'Tug', cost: 85, level: 4, name: "Belt of Good Health", link: "https://2e.aonprd.com/Equipment.aspx?ID=913", desc: "+4 extra HP" },
   { for: 'Tug', cost: 80, level: 4, name: "Healer's Gloves", link: "https://2e.aonprd.com/Equipment.aspx?ID=444", desc: "Action to restore 2d6+7 HP to an adjacent creature once per day, +1 item bonus to Medicine checks" },
   // { for: 'Tug', cost: 100, level: 4, name: "Sleeves of Storage", link: "https://2e.aonprd.com/Equipment.aspx?ID=745", desc: "Worn garment which magically holds up to 10 Bulk with reduced weight" },
   { for: 'Tug', cost: 340, level: 8, name: "Resilient (Armor Fundamental Rune)", link: "https://2e.aonprd.com/Equipment.aspx?ID=2786", desc: "+1 to all saving throws" },
@@ -38,7 +37,7 @@ export const wishlist: PurchasableItem[] = [
   { for: 'Merrek', cost: 58, level: 3, name: "Bracelet of Dashing", link: "https://2e.aonprd.com/Equipment.aspx?ID=415", desc: "Once per day, gain a +10-foot status bonus to your Speed for 1 minute" },
   { for: 'Merrek', cost: 80, level: 4, name: "Lifting Belt", link: "https://2e.aonprd.com/Equipment.aspx?ID=3091&Redirected=1", desc: "+1 item bonus to Athletics, extra carrying capacity, magic lift action" },
   { for: 'Merrek', cost: 80, level: 4, name: "Healer's Gloves", link: "https://2e.aonprd.com/Equipment.aspx?ID=444", desc: "Action to restore 2d6+7 HP to an adjacent creature once per day, +1 item bonus to Medicine checks" },
-  { for: 'Merrek', cost: 85, level: 4, name: "Belt of Good Health", link: "https://2e.aonprd.com/Equipment.aspx?ID=913", desc: "+4 extra HP" },
+  // { for: 'Merrek', cost: 85, level: 4, name: "Belt of Good Health", link: "https://2e.aonprd.com/Equipment.aspx?ID=913", desc: "+4 extra HP" },
   // { for: 'Merrek', cost: 100, level: 4, name: "Sleeves of Storage", link: "https://2e.aonprd.com/Equipment.aspx?ID=745", desc: "Worn garment which magically holds up to 10 Bulk with reduced weight" },
   { for: 'Merrek', cost: 340, level: 8, name: "Resilient (Armor Fundamental Rune)", link: "https://2e.aonprd.com/Equipment.aspx?ID=2786", desc: "+1 to all saving throws" },
   { for: 'Merrek', cost: 900, level: 10, name: "Instinct Crown", link: "https://2e.aonprd.com/Equipment.aspx?ID=2338", desc: "Rage as a free action, makes you Large for Giant instinct", priority: true },
