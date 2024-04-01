@@ -57,6 +57,14 @@ const state = defineState({
     }
 
     return membersWithPurchases
+  },
+
+  get totalSpend() {
+    return this.membersWithPurchases.reduce((sum, member) => sum + member.spent, 0)
+  },
+
+  get leftoverGold() {
+    return this.totalPartyGold - this.totalSpend
   }
 })
 </script>
@@ -89,31 +97,38 @@ const state = defineState({
           :max="20"
           :step="1"
           thumbLabel="always" />
+        <div>
+          <span class="text-gold">Spending: {{ state.totalSpend }}gp</span>
+          &#x2022;
+          <span>Leftover: {{ state.leftoverGold }}gp</span>
+        </div>
       </VContainer>
-      <VRow>
-        <VCol v-for="member in state.membersWithPurchases" :key="member.name" :style="{ minWidth: '250px' }">
-          <VCard>
-            <VAvatar :image="member.image" size="100px" class="mx-auto mt-4" />
-            <VCardTitle>{{ member.name }}</VCardTitle>
-            <VCardSubtitle>Class: {{ member.class }}</VCardSubtitle>
-            <VCardSubtitle>Archetype: {{ member.archetype }}</VCardSubtitle>
-            <div class="text-gold">Spending {{ member.spent }}gp</div>
-            <div>Buying {{ member.purchases.length }}/{{
+      <VContainer fluid>
+        <VRow>
+          <VCol v-for="member in state.membersWithPurchases" :key="member.name" :style="{ minWidth: '250px' }">
+            <VCard>
+              <VAvatar :image="member.image" size="100px" class="mx-auto mt-4" />
+              <VCardTitle>{{ member.name }}</VCardTitle>
+              <VCardSubtitle>Class: {{ member.class }}</VCardSubtitle>
+              <VCardSubtitle>Archetype: {{ member.archetype }}</VCardSubtitle>
+              <div class="text-gold">Spending {{ member.spent }}gp</div>
+              <div>Buying {{ member.purchases.length }}/{{
           member.purchases.length + member.remainingPotentialPurchases.length }}
-              items</div>
-            <div v-if="member.remainingPotentialPurchases.length === 0">Needs more suggestions</div>
-            <VList>
-              <VListItem v-for="rec in member.purchases" :key="rec.name">
-                <a :href="rec.link" target="_blank">
-                  <VListItemTitle>{{ rec.name }}</VListItemTitle>
-                </a>
-                <p>{{ rec.desc }}</p>
-                <VListItemSubtitle>Level {{ rec.level }} - {{ rec.cost }}gp</VListItemSubtitle>
-              </VListItem>
-            </VList>
-          </VCard>
-        </VCol>
-      </VRow>
+                items</div>
+              <div v-if="member.remainingPotentialPurchases.length === 0">Needs more suggestions</div>
+              <VList>
+                <VListItem v-for="rec in member.purchases" :key="rec.name">
+                  <a :href="rec.link" target="_blank">
+                    <VListItemTitle>{{ rec.name }}</VListItemTitle>
+                  </a>
+                  <p>{{ rec.desc }}</p>
+                  <VListItemSubtitle>Level {{ rec.level }} - {{ rec.cost }}gp</VListItemSubtitle>
+                </VListItem>
+              </VList>
+            </VCard>
+          </VCol>
+        </VRow>
+      </VContainer>
     </VMain>
   </VApp>
 </template>
