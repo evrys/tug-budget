@@ -8,7 +8,7 @@ import elyarImg from './assets/elyar.webp'
 import crimsonImg from './assets/crimson.webp'
 // import citadelAltaereinImg from './assets/citadel-altaerein.webp'
 import { PurchasableItem, wishlist } from "./wishlist"
-import { minBy, sortBy } from 'lodash-es'
+import { minBy, orderBy } from 'lodash-es'
 
 const state = defineState({
   totalPartyGold: 3000,
@@ -34,7 +34,7 @@ const state = defineState({
       return {
         ...member,
         purchases: [] as PurchasableItem[],
-        remainingPotentialPurchases: sortBy(this.availableRecs.filter(item => item.for === member.name), item => -item.cost),
+        remainingPotentialPurchases: orderBy(this.availableRecs.filter(item => item.for === member.name), item => item.cost),
         spent: 0
       }
     })
@@ -49,11 +49,19 @@ const state = defineState({
       // If there's no one to buy for, we're done
       if (!member) break
 
-      const cheapestPurchase = member.remainingPotentialPurchases.pop()!
+      let nextPurchase = member.remainingPotentialPurchases.find(purchase => purchase.priority)
+      if (!nextPurchase) {
+        nextPurchase = member.remainingPotentialPurchases[0]
+      }
 
-      member.purchases.push(cheapestPurchase)
-      member.spent += cheapestPurchase.cost
-      budget -= cheapestPurchase.cost
+      member.remainingPotentialPurchases = member.remainingPotentialPurchases.filter(purchase => purchase !== nextPurchase)
+      member.purchases.push(nextPurchase)
+      member.spent += nextPurchase.cost
+      budget -= nextPurchase.cost
+    }
+
+    for (const member of membersWithPurchases) {
+      member.purchases = orderBy(member.purchases, ['priority', 'level', 'cost'], ['asc', 'desc', 'desc'])
     }
 
     return membersWithPurchases
@@ -118,9 +126,10 @@ const state = defineState({
               <div v-if="member.remainingPotentialPurchases.length === 0">Needs more suggestions</div>
               <VList>
                 <VListItem v-for="rec in member.purchases" :key="rec.name">
-                  <a :href="rec.link" target="_blank">
-                    <VListItemTitle>{{ rec.name }}</VListItemTitle>
-                  </a>
+                  <VListItemTitle>
+                    <!-- <span v-if="rec.priority" class="text-gold">Priority: </span> -->
+                    <a :href="rec.link" target="_blank">{{ rec.name }}</a>
+                  </VListItemTitle>
                   <p>{{ rec.desc }}</p>
                   <VListItemSubtitle>Level {{ rec.level }} - {{ rec.cost }}gp</VListItemSubtitle>
                 </VListItem>
